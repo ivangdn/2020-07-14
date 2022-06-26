@@ -2,7 +2,7 @@ package it.polito.tdp.PremierLeague.model;
 
 import java.time.LocalDateTime;
 
-public class Match {
+public class Match implements Comparable<Match>{
 	Integer matchID;
 	Integer teamHomeID;
 	Integer teamAwayID;
@@ -35,36 +35,35 @@ public class Match {
 	public void setMatchID(Integer matchID) {
 		this.matchID = matchID;
 	}
+	
 	public Integer getTeamHomeID() {
 		return teamHomeID;
 	}
 	public void setTeamHomeID(Integer teamHomeID) {
 		this.teamHomeID = teamHomeID;
 	}
+	
 	public Integer getTeamAwayID() {
 		return teamAwayID;
 	}
 	public void setTeamAwayID(Integer teamAwayID) {
 		this.teamAwayID = teamAwayID;
 	}
+	
 	public Integer getTeamHomeFormation() {
 		return teamHomeFormation;
 	}
 	public void setTeamHomeFormation(Integer teamHomeFormation) {
 		this.teamHomeFormation = teamHomeFormation;
 	}
+	
 	public Integer getTeamAwayFormation() {
 		return teamAwayFormation;
 	}
 	public void setTeamAwayFormation(Integer teamAwayFormation) {
 		this.teamAwayFormation = teamAwayFormation;
 	}
-	public Integer getReaultOfTeamHome() {
-		return resultOfTeamHome;
-	}
-	public void setReaultOfTeamHome(Integer resultOfTeamHome) {
-		this.resultOfTeamHome = resultOfTeamHome;
-	}
+	
 	public LocalDateTime getDate() {
 		return date;
 	}
@@ -75,7 +74,6 @@ public class Match {
 	public Integer getResultOfTeamHome() {
 		return resultOfTeamHome;
 	}
-
 	public void setResultOfTeamHome(Integer resultOfTeamHome) {
 		this.resultOfTeamHome = resultOfTeamHome;
 	}
@@ -83,7 +81,6 @@ public class Match {
 	public String getTeamHomeNAME() {
 		return teamHomeNAME;
 	}
-
 	public void setTeamHomeNAME(String teamHomeNAME) {
 		this.teamHomeNAME = teamHomeNAME;
 	}
@@ -91,7 +88,6 @@ public class Match {
 	public String getTeamAwayNAME() {
 		return teamAwayNAME;
 	}
-
 	public void setTeamAwayNAME(String teamAwayNAME) {
 		this.teamAwayNAME = teamAwayNAME;
 	}
@@ -124,6 +120,11 @@ public class Match {
 		} else if (!matchID.equals(other.matchID))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Match other) {
+		return this.date.compareTo(other.date);
 	}
 	
 }

@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.PremierLeague.model.Model;
+import it.polito.tdp.PremierLeague.model.Team;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,7 +36,7 @@ public class FXMLController {
     private Button btnSimula; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbSquadra"
-    private ComboBox<?> cmbSquadra; // Value injected by FXMLLoader
+    private ComboBox<Team> cmbSquadra; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtN"
     private TextField txtN; // Value injected by FXMLLoader
@@ -48,17 +49,52 @@ public class FXMLController {
 
     @FXML
     void doClassifica(ActionEvent event) {
-
+    	txtResult.clear();
+    	Team s = cmbSquadra.getValue();
+    	if(s == null) {
+    		txtResult.setText("Selezionare una squadra");
+    		return;
+    	}
+    	
+    	txtResult.appendText("SQUADRE MIGLIORI:\n");
+    	for(Team migliore : model.squadreMigliori(s)) {
+    		txtResult.appendText(String.format("%s(%d)\n", migliore, migliore.getPunti()-s.getPunti()));
+    	}
+    	
+    	txtResult.appendText("\nSQUADRE PEGGIORI:\n");
+    	for(Team peggiore : model.squadrePeggiori(s)) {
+    		txtResult.appendText(String.format("%s(%d)\n", peggiore, s.getPunti()-peggiore.getPunti()));
+    	}
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
-    }
+    	txtResult.clear();
+    	model.creaGrafo();
+    	txtResult.appendText("Grafo creato\n");
+    	txtResult.appendText("# VERTICI: "+model.nVertici()+"\n");
+    	txtResult.appendText("# ARCHI: "+model.nArchi());
+    	cmbSquadra.getItems().clear();
+    	cmbSquadra.getItems().addAll(model.getVertici());
+    } 
 
     @FXML
     void doSimula(ActionEvent event) {
-
+    	txtResult.clear();
+    	
+    	int N;
+    	int X;
+    	try {
+    		N = Integer.parseInt(txtN.getText());
+    		X = Integer.parseInt(txtX.getText());
+    	} catch(NumberFormatException e) {
+    		txtResult.setText("N e X devono essere valori numerici interi");
+    		return;
+    	}
+    	
+    	this.model.simula(N, X);
+    	txtResult.appendText("Numero medio di reporter per match: "+model.getAvgReporter()+"\n");
+    	txtResult.appendText("Numero di partite critiche: "+model.getMatchCritici());
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
